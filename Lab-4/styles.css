@@ -1,41 +1,90 @@
+/* General Styles */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f4;
     color: #333;
     margin: 0;
     padding: 20px;
+    line-height: 1.6;
 }
 
+/* Header Styling */
 header {
     text-align: center;
     background-color: #004080;
     color: white;
-    padding: 15px;
+    padding: 20px;
     border-radius: 10px;
 }
 
-h1 {
-    font-size: 24px;
+header h1 {
+    font-size: 28px;
     margin-bottom: 10px;
+}
+
+header p {
+    font-size: 16px;
+}
+
+/* Headings */
+h1 {
+    font-size: 28px;
+    font-weight: bold;
 }
 
 h2 {
     color: #004080;
+    font-size: 22px;
     border-bottom: 2px solid #004080;
     padding-bottom: 5px;
+    margin-top: 20px;
 }
 
+h3 {
+    color: #333;
+    font-size: 18px;
+    margin-top: 15px;
+}
+
+/* Article Styling */
 article {
     background: white;
-    padding: 15px;
+    padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     margin-top: 20px;
 }
 
+/* Paragraph Styling */
+p {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* List Styling */
+ul {
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 5px;
+}
+
+/* Footer Styling */
 footer {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 30px;
+    padding: 10px;
     font-size: 14px;
     color: #666;
+    background-color: #ddd;
+    border-radius: 5px;
+}
+
+/* Responsive Design for Laptop Screens */
+@media (min-width: 1024px) {
+    body {
+        max-width: 900px;
+        margin: auto;
+    }
 }
