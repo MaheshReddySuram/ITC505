@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Treasure Hunt Adventure</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C5CE7;
+            --secondary: #00CEF5;
+            --accent: #FFD32D;
+            --dark: #2D3436;
+            --light: #F5F6FA;
+            --success: #00B894;
+            --danger: #D63031;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--dark);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .game-container {
+            display: flex;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 1200px;
+            min-height: 600px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .game-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: linear-gradient(90deg, 
+                var(--primary) 0%, 
+                var(--secondary) 33%, 
+                var(--accent) 66%, 
+                var(--success) 100%);
+        }
+
+        .game-content {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .game-image {
+            flex: 1;
+            background: var(--light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        #storyImage {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            object-fit: contain;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 20px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #storyText {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: var(--light);
+            border-radius: 10px;
+            border-left: 5px solid var(--accent);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        #choices {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .choice-button {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.1);
+            text-align: left;
+        }
+
+        .choice-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 rgba(0, 0, 0, 0.1);
+            background-color: var(--secondary);
+        }
+
+        .choice-button:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            left: 20px;
+            text-align: center;
+            color: white;
+            font-size: 0.9rem;
+            background-color: rgba(0, 0, 0, 0.3);
+            padding: 8px 15px;
+            border-radius: 20px;
+            backdrop-filter: blur(5px);
+            font-weight: 500;
+            max-width: 500px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+
+        footer p {
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            margin: 0;
+        }
+
+        #lastModified {
+            font-weight: bold;
+            color: var(--accent);
+            background-color: rgba(0, 0, 0, 0.2);
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+
+        .view-addendum {
+            background: var(--accent);
+            color: var(--dark);
+            border: none;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+        }
+
+        .view-addendum:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Addendum styles */
+        .addendum {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .addendum-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 15px;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        .addendum h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .addendum p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .close-addendum {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--danger);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .game-container {
+                flex-direction: column;
+                min-height: auto;
+            }
+            
+            .game-image {
+                order: -1;
+                padding: 20px;
+            }
+            
+            #storyImage {
+                max-height: 200px;
+            }
+            
+            .game-content {
+                padding: 20px;
+            }
+
+            footer {
+                font-size: 0.8rem;
+                bottom: 10px;
+                max-width: 90%;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .addendum-content {
+                width: 90%;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="game-content">
+            <h1>Treasure Hunt Adventure</h1>
+            <p id="storyText">Welcome to the treasure hunt adventure of Vinay, Geetika, Saketh, and Mahesh!</p>
+            <div id="choices"></div>
+        </div>
+        <div class="game-image">
+            <img id="storyImage" src="https://img.freepik.com/premium-photo/group-teenagers-night-forest_763713-1961.jpg?" alt="Mystic Forest">
+        </div>
+    </div>
+
+    <footer>
+        <p>Last updated: <span id="lastModified"></span></p>
+        <button class="view-addendum" onclick="showAddendum()">View Addendum</button>
+    </footer>
+
+    <div class="addendum" id="addendum">
+        <div class="addendum-content">
+            <button class="close-addendum" onclick="hideAddendum()">×</button>
+            <h2>Project Addendum</h2>
+            
+            <h3>Development Process</h3>
+            <p>1. <strong>Planning:</strong> I began by mapping out the story flow with 8 distinct endings. Each decision point leads to different outcomes, creating a branching narrative structure.</p>
+            <p>2. <strong>HTML Structure:</strong> Created a clean layout with separate sections for the story text, choices, and image display area.</p>
+            <p>3. <strong>JavaScript Logic:</strong> Implemented a story object containing all possible scenes, with properties for text, choices, and corresponding images.</p>
+            <p>4. <strong>CSS Styling:</strong> Used a vibrant color scheme with gradients and modern UI elements to make the game visually appealing.</p>
+            
+            <h3>Creative Choices</h3>
+            <p>- <strong>Color Scheme:</strong> Selected a vibrant purple-to-teal gradient background with yellow accents to create an adventurous feel.</p>
+            <p>- <strong>Interactive Elements:</strong> Designed pill-shaped buttons with hover effects to make choices feel tangible.</p>
+            <p>- <strong>Visual Feedback:</strong> Added subtle animations and transitions to enhance user experience.</p>
+            
+            <h3>Challenges Faced</h3>
+            <p>1. <strong>Story Complexity:</strong> Managing multiple branching paths required careful planning to ensure all endings were reachable.</p>
+            <p>2. <strong>Image Sizing:</strong> Ensuring consistent image display across different scenes required CSS object-fit properties.</p>
+            <p>3. <strong>Mobile Responsiveness:</strong> Adapting the two-column layout for mobile devices required media queries and reordering of elements.</p>
+            
+            <h3>Solutions Implemented</h3>
+            <p>- Created a detailed story map before coding to visualize all possible paths.</p>
+            <p>- Used CSS flexbox and object-fit to handle varying image dimensions.</p>
+            <p>- Implemented responsive design with media queries to ensure good mobile experience.</p>
+            
+            <h3>Key Learnings</h3>
+            <p>1. Planning complex branching narratives requires careful documentation.</p>
+            <p>2. CSS Grid and Flexbox are powerful tools for creating responsive layouts.</p>
+            <p>3. Visual feedback (like button hover states) significantly improves user experience.</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("lastModified").textContent = new Date(document.lastModified).toLocaleString();
+        
+        const story = {
+            start: {
+                text: "Vinay, Geetika, Saketh, and Mahesh found an ancient treasure map! They enter the Mystic Forest and reach a fork in the road.",
+                choices: [
+                    { text: "Take the left path to an abandoned cabin", next: "cabin" },
+                    { text: "Take the right path to a river", next: "river" }
+                ],
+                image: "https://img.freepik.com/premium-photo/group-teenagers-night-forest_763713-1961.jpg?"
+            },
+            cabin: {
+                text: "Inside the cabin, they find an old diary. It says: 'Where the water sings, the next clue rings.'",
+                choices: [
+                    { text: "Follow the sound of water", next: "waterfall" },
+                    { text: "Search the cabin more", next: "trap" }
+                ],
+                image: "https://tse3.mm.bing.net/th?id=OIP.ciHs_jd-CTAEOx0J7evgOwHaEb"
+            },
+            river: {
+                text: "They reach a river, but the bridge is broken. They find an old wooden raft.",
+                choices: [
+                    { text: "Try to fix the raft", next: "waterfall" },
+                    { text: "Look for another way", next: "lost" }
+                ],
+                image: "https://media.istockphoto.com/photos/old-broken-bridge-across-the-river-in-the-forest-picture-id495813405?k=6&m=495813405&s=612x612&w=0&h=8DWoZPjcz6NPipqYVPwxri2XfBg8AkjdzkGHlADgdIw="
+            },
+            waterfall: {
+                text: "Behind the waterfall, they find a cave with a locked treasure chest! A riddle is written: 'Four are we, yet one must stay. Choose wisely, or go astray.'",
+                choices: [
+                    { text: "One friend stays behind while the rest enter", next: "chest" },
+                    { text: "All enter together", next: "trap" }
+                ],
+                image: "https://thumbs.dreamstime.com/b/cave-entrance-hidden-behind-waterfall-cave-entrance-hidden-behind-waterfall-created-generative-ai-297180235.jpg"
+            },
+            trap: {
+                text: "Oh no! A hidden trap was triggered, and they barely escaped. The treasure remains hidden forever.",
+                choices: [{ text: "Restart the adventure", next: "start" }],
+                image: "https://i.pinimg.com/originals/b2/6f/57/b26f57d00fa389176a4ae9bfa99da7f4.png"
+            },
+            lost: {
+                text: "They wander in the forest for hours and get lost. The treasure is never found.",
+                choices: [{ text: "Restart the adventure", next: "start" }],
+                image: "https://thumbs.dreamstime.com/b/man-walking-dark-path-strange-dark-forest-fog-31705858.jpg"
+            },
+            chest: {
+                text: "They find a hidden key and unlock the chest, revealing a golden idol and ancient coins!",
+                choices: [
+                    { text: "Run back before the cave collapses", next: "escape" },
+                    { text: "Look for another exit", next: "trap" }
+                ],
+                image: "https://as1.ftcdn.net/v2/jpg/05/55/44/06/1000_F_555440654_U2FXZZb6bcm2C5L0zN3jXHHUaKRqyVMs.jpg"
+            },
+            escape: {
+                text: "They successfully escape the cave and become legendary explorers! The treasure is theirs!",
+                choices: [{ text: "Play again", next: "start" }],
+                image: "https://img.freepik.com/premium-photo/four-friends-exploring-cave_1275912-10963.jpg"
+            }
+        };
+
+        function startGame() {
+            updatePage("start");
+        }
+
+        function updatePage(scene) {
+            document.getElementById("storyText").textContent = story[scene].text;
+            document.getElementById("storyImage").src = story[scene].image;
+
+            const choicesDiv = document.getElementById("choices");
+            choicesDiv.innerHTML = "";
+            story[scene].choices.forEach(choice => {
+                const button = document.createElement("button");
+                button.textContent = choice.text;
+                button.classList.add("choice-button");
+                button.onclick = () => updatePage(choice.next);
+                choicesDiv.appendChild(button);
+            });
+        }
+
+        function showAddendum() {
+            document.getElementById("addendum").style.display = "flex";
+        }
+
+        function hideAddendum() {
+            document.getElementById("addendum").style.display = "none";
+        }
+
+        window.onload = startGame;
+    </script>
+</body>
+</html>
