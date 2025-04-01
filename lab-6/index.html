@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 6 - Number Search</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>Number Search Application</h1>
+        </header>
+        
+        <nav class="menu">
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#">Search</a></li>
+                <li><a href="#">About</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </nav>
+        
+        <main class="content">
+            <div class="search-app">
+                <h2>Search for a Number</h2>
+                <div class="input-section">
+                    <input type="number" id="searchInput" placeholder="Enter a number to search">
+                    <button id="searchBtn">Search</button>
+                </div>
+                <div class="number-list">
+                    <h3>Available Numbers:</h3>
+                    <div id="numbersDisplay"></div>
+                </div>
+                <div id="searchResults"></div>
+            </div>
+        </main>
+        
+        <aside class="ad">
+            <a href="https://www.amazon.com/Algorithm-Design-Manual-Computer-Science/dp/3030542556" target="_blank">
+                <img src="https://m.media-amazon.com/images/I/413mXCYGPuL._SY445_SX342_.jpg" alt="The Algorithm Design Manual Book">
+            </a>
+        </aside>
+        
+        <footer class="footer">
+            <h3>Addendum</h3>
+            <p>This application searches for a number in a predefined list. The main challenge was implementing 
+               an efficient search algorithm and displaying the results clearly. I used both linear search and 
+               binary search (for sorted arrays) to demonstrate different approaches. The UI highlights found 
+               numbers and shows search statistics.</p>
+            <p>Last updated: <span id="lastModified"></span></p>
+        </footer>
+    </div>
+    
+    <script src="script.js"></script>
+    <script type="text/javascript">
+        var x = document.lastModified;
+        document.getElementById('lastModified').textContent = x;
+    </script>
+</body>
+</html>
