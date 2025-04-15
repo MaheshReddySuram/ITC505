@@ -202,6 +202,36 @@
         .addendum li {
             margin-bottom: 0.5rem;
         }
+        
+        /* Result styles */
+        #resultContainer {
+            display: none;
+            margin-top: 2rem;
+            padding: 2.5rem;
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        #resultContainer h2 {
+            background: linear-gradient(to right, #a78bfa, #7dd3fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 1.5rem;
+            font-size: 1.75rem;
+        }
+        
+        #resultContainer p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+        
+        #resultContainer button {
+            margin-top: 0;
+        }
     </style>
 </head>
 <body>
@@ -211,8 +241,8 @@
             <p class="subtitle">Fuel your imagination with cosmic wordplay</p>
         </header>
         
-        <div class="card">
-            <form id="madlibForm" action="/madlib" method="POST">
+        <div class="card" id="formContainer">
+            <form id="madlibForm">
                 <div class="form-group">
                     <label for="space-object">Celestial Body</label>
                     <input type="text" id="space-object" name="space-object" placeholder="e.g., quasar, exoplanet" required>
@@ -249,10 +279,16 @@
                     <div class="error-message" id="quantity-error">Please enter a number between 1-100</div>
                 </div>
                 
-                <button type="button" onclick="generateMadLib()">
+                <button type="submit">
                     Launch Story
                 </button>
             </form>
+        </div>
+        
+        <div class="card" id="resultContainer">
+            <h2>Your Space Adventure</h2>
+            <p id="storyResult"></p>
+            <button id="newStoryBtn">Create Another Story</button>
         </div>
     </div>
     
@@ -271,39 +307,11 @@
             </ul>
         </div>
     </footer>
-
-    <script>
-        function generateMadLib() {
-            const spaceObject = document.getElementById('space-object').value;
-            const alienName = document.getElementById('alien-name').value;
-            const techDevice = document.getElementById('tech-device').value;
-            const spaceAction = document.getElementById('space-action').value;
-            const cosmicEmotion = document.getElementById('cosmic-emotion').value;
-            const quantity = document.getElementById('quantity').value;
         
-            // Validate inputs
-            if (!spaceObject || !alienName || !techDevice || !spaceAction || !cosmicEmotion || !quantity) {
-                alert("Please fill in all fields!");
-                return;
-            }
-        
-            // Generate story
-            const story = `
-                <div class="result-container">
-                    <h1>Your Space Adventure</h1>
-                    <p>While exploring the ${spaceObject}, you encountered ${quantity} ${alienName}${quantity > 1 ? 's' : ''} who ${quantity > 1 ? 'were' : 'was'}
-                    using a ${techDevice}. Together you began ${spaceAction}, feeling 
-                    ${cosmicEmotion} about the whole experience!</p>
-                    <a href="index.html">Create Another Story</a>
-                </div>
-            `;
-        
-            // Display result
-            document.querySelector('.card').innerHTML = story;
-        }
-        </script>
+    
     <script>
         document.getElementById('madlibForm').addEventListener('submit', function(e) {
+            e.preventDefault();
             let isValid = true;
             
             const fields = [
@@ -320,12 +328,10 @@
                 const error = document.getElementById(`${field}-error`);
                 
                 if (!input.value.trim()) {
-                    e.preventDefault();
                     input.classList.add('error');
                     error.style.display = 'block';
                     isValid = false;
                 } else if (field === 'quantity' && (input.value < 1 || input.value > 100)) {
-                    e.preventDefault();
                     input.classList.add('error');
                     error.style.display = 'block';
                     isValid = false;
@@ -334,9 +340,37 @@
                     error.style.display = 'none';
                 }
             });
+            
+            if (isValid) {
+                generateStory();
+            }
+        });
+        
+        function generateStory() {
+            const spaceObject = document.getElementById('space-object').value;
+            const alienName = document.getElementById('alien-name').value;
+            const techDevice = document.getElementById('tech-device').value;
+            const spaceAction = document.getElementById('space-action').value;
+            const cosmicEmotion = document.getElementById('cosmic-emotion').value;
+            const quantity = document.getElementById('quantity').value;
+            
+            const story = `While exploring the ${spaceObject}, you encountered ${quantity} ${alienName}${quantity > 1 ? 's' : ''} who ${quantity > 1 ? 'were' : 'was'} 
+                using a ${techDevice}. Together you began ${spaceAction}, feeling 
+                ${cosmicEmotion} about the whole experience!`;
+                
+            document.getElementById('storyResult').textContent = story;
+            document.getElementById('formContainer').style.display = 'none';
+            document.getElementById('resultContainer').style.display = 'block';
+        }
+        
+        document.getElementById('newStoryBtn').addEventListener('click', function() {
+            document.getElementById('formContainer').style.display = 'block';
+            document.getElementById('resultContainer').style.display = 'none';
+            document.getElementById('madlibForm').reset();
         });
         
         var x = document.lastModified;
-        document.getElementById('lastModified').textContent = x;    </script>
+        document.getElementById('lastModified').textContent = x;
+    </script>
 </body>
 </html>
