@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Space Adventure Mad Lib</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6d28d9;
+            --primary-light: #ddd6fe;
+            --error: #ef4444;
+            --text: #1e1b4b;
+            --light-text: #64748b;
+            --bg: #0f172a;
+            --card: rgba(255, 255, 255, 0.05);
+            --border: rgba(255, 255, 255, 0.1);
+            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg);
+            color: white;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 0;
+            background-image: 
+                radial-gradient(at 80% 0%, hsla(189, 100%, 56%, 0.15) 0px, transparent 50%),
+                radial-gradient(at 0% 50%, hsla(355, 100%, 93%, 0.1) 0px, transparent 50%);
+        }
+        
+        .container {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            width: 100%;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #a78bfa, #7dd3fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1.2;
+        }
+        
+        .subtitle {
+            color: var(--primary-light);
+            font-size: 1.125rem;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        
+        .card {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 2.5rem;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--border);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #e9d5ff;
+            font-size: 0.9375rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 0.875rem 1.25rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(2, 6, 23, 0.5);
+            color: white;
+        }
+        
+        input.error {
+            border-color: var(--error);
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(109, 40, 217, 0.3);
+        }
+        
+        input::placeholder {
+            color: #94a3b8;
+            opacity: 0.5;
+        }
+        
+        button {
+            background: linear-gradient(to right, var(--primary), #7c3aed);
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.3);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button::after {
+            content: '🚀';
+            position: absolute;
+            right: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        button:hover::after {
+            transform: translateX(4px);
+        }
+        
+        .error-message {
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+            display: none;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            color: var(--light-text);
+            font-size: 0.875rem;
+            opacity: 0.7;
+        }
+        
+        @media (max-width: 640px) {
+            body {
+                padding: 1.5rem 0;
+            }
+            
+            .container {
+                padding: 0 1.25rem;
+            }
+            
+            h1 {
+                font-size: 1.875rem;
+            }
+            
+            .card {
+                padding: 2rem 1.5rem;
+            }
+        }
+        .addendum {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            border-left: 3px solid #6d28d9;
+        }
+        .addendum h3 {
+            color: #a78bfa;
+            margin-bottom: 0.5rem;
+        }
+        .addendum ul {
+            padding-left: 1.5rem;
+        }
+        .addendum li {
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Space Adventure Mad Lib</h1>
+            <p class="subtitle">Fuel your imagination with cosmic wordplay</p>
+        </header>
+        
+        <div class="card">
+            <form id="madlibForm" action="/madlib" method="POST">
+                <div class="form-group">
+                    <label for="space-object">Celestial Body</label>
+                    <input type="text" id="space-object" name="space-object" placeholder="e.g., quasar, exoplanet" required>
+                    <div class="error-message" id="space-object-error">Please enter a celestial body</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="alien-name">Alien Name</label>
+                    <input type="text" id="alien-name" name="alien-name" placeholder="e.g., Zorblax, Glipnorp" required>
+                    <div class="error-message" id="alien-name-error">Please enter an alien name</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tech-device">Futuristic Device</label>
+                    <input type="text" id="tech-device" name="tech-device" placeholder="e.g., quantum discombobulator" required>
+                    <div class="error-message" id="tech-device-error">Please enter a futuristic device</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="space-action">Space Activity</label>
+                    <input type="text" id="space-action" name="space-action" placeholder="e.g., warp jumping, nebula surfing" required>
+                    <div class="error-message" id="space-action-error">Please enter a space activity</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cosmic-emotion">Intergalactic Emotion</label>
+                    <input type="text" id="cosmic-emotion" name="cosmic-emotion" placeholder="e.g., supernova-level excitement" required>
+                    <div class="error-message" id="cosmic-emotion-error">Please enter an emotion</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="quantity">Number of Aliens</label>
+                    <input type="number" id="quantity" name="quantity" min="1" max="100" placeholder="e.g., 3, 42" required>
+                    <div class="error-message" id="quantity-error">Please enter a number between 1-100</div>
+                </div>
+                
+                <button type="submit">
+                    Launch Story
+                </button>
+            </form>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Last updated: <span id="lastModified"></span></p>
+        <div class="addendum">
+            <h3>Addendum</h3>
+            <p><strong>Process and Design Choices:</strong></p>
+            <ul>
+                <li><strong>Number Field Addition:</strong> Added a quantity input to make the story more dynamic</li>
+                <li><strong>Pluralization Logic:</strong> Implemented automatic pluralization of nouns based on quantity</li>
+                <li><strong>Enhanced Validation:</strong> Added client and server-side validation for the number field</li>
+                <li><strong>Space Theme:</strong> Maintained consistent space aesthetic throughout all pages</li>
+                <li><strong>Responsive Design:</strong> Ensured proper display on all device sizes</li>
+                <li><strong>User Experience:</strong> Added clear error messages and visual feedback</li>
+            </ul>
+        </div>
+    </footer>
+    
+    <script>
+        document.getElementById('madlibForm').addEventListener('submit', function(e) {
+            let isValid = true;
+            
+            const fields = [
+                'space-object', 
+                'alien-name', 
+                'tech-device', 
+                'space-action', 
+                'cosmic-emotion',
+                'quantity'
+            ];
+            
+            fields.forEach(field => {
+                const input = document.getElementById(field);
+                const error = document.getElementById(`${field}-error`);
+                
+                if (!input.value.trim()) {
+                    e.preventDefault();
+                    input.classList.add('error');
+                    error.style.display = 'block';
+                    isValid = false;
+                } else if (field === 'quantity' && (input.value < 1 || input.value > 100)) {
+                    e.preventDefault();
+                    input.classList.add('error');
+                    error.style.display = 'block';
+                    isValid = false;
+                } else {
+                    input.classList.remove('error');
+                    error.style.display = 'none';
+                }
+            });
+        });
+        
+        var x = document.lastModified;
+        document.getElementById('lastModified').textContent = x;    </script>
+</body>
+</html>
