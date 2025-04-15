@@ -249,7 +249,7 @@
                     <div class="error-message" id="quantity-error">Please enter a number between 1-100</div>
                 </div>
                 
-                <button type="submit">
+                <button type="button" onclick="generateMadLib()">
                     Launch Story
                 </button>
             </form>
@@ -271,7 +271,37 @@
             </ul>
         </div>
     </footer>
-    
+
+    <script>
+        function generateMadLib() {
+            const spaceObject = document.getElementById('space-object').value;
+            const alienName = document.getElementById('alien-name').value;
+            const techDevice = document.getElementById('tech-device').value;
+            const spaceAction = document.getElementById('space-action').value;
+            const cosmicEmotion = document.getElementById('cosmic-emotion').value;
+            const quantity = document.getElementById('quantity').value;
+        
+            // Validate inputs
+            if (!spaceObject || !alienName || !techDevice || !spaceAction || !cosmicEmotion || !quantity) {
+                alert("Please fill in all fields!");
+                return;
+            }
+        
+            // Generate story
+            const story = `
+                <div class="result-container">
+                    <h1>Your Space Adventure</h1>
+                    <p>While exploring the ${spaceObject}, you encountered ${quantity} ${alienName}${quantity > 1 ? 's' : ''} who ${quantity > 1 ? 'were' : 'was'}
+                    using a ${techDevice}. Together you began ${spaceAction}, feeling 
+                    ${cosmicEmotion} about the whole experience!</p>
+                    <a href="index.html">Create Another Story</a>
+                </div>
+            `;
+        
+            // Display result
+            document.querySelector('.card').innerHTML = story;
+        }
+        </script>
     <script>
         document.getElementById('madlibForm').addEventListener('submit', function(e) {
             let isValid = true;
