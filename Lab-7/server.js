@@ -53,7 +53,7 @@ server.get('/do_a_random', (req, res) => {
 });
 
 // Mad Lib route
-server.post('/madlib', (req, res) => {
+server.post('https://maheshreddysuram.github.io/ITC505/Lab-7/madlib', (req, res) => {
     const { 
         'space-object': spaceObject, 
         'alien-name': alienName,
